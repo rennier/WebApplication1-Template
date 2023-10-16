@@ -1,0 +1,48 @@
+﻿@model List<UserRolesViewModel>
+
+<h2>User Roles</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>User ID</th>
+            <th>Email</th>
+            <th>Name</th>
+            <th>Roles</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.UserId</td>
+                <td>@user.Email</td>
+                <td>@user.Name</td>
+                <td>
+                    @foreach (var role in user.Roles)
+                    {
+                        <span class="badge badge-primary">@role</span>
+                    }
+                </td>
+                <td>
+                    <a href="@Url.Action("Manage", "UserRoles", new { userId = user.UserId })" class="btn btn-primary">Manage Roles</a>
+                    
+                
+                    <a class="btn btn-primary" asp-controller="ResetPassword" asp-action="ResetPassword1" asp-route-userId="@user.UserId">Reset Password</a>
+                
+
+
+                    <a href="@Url.Action("Delete", "UserRoles", new { userId = user.UserId })" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+@if (TempData["TemporaryPassword"] != null)
+{
+    <div class="alert alert-success">Temporary Password: @TempData["TemporaryPassword"]</div>
+}

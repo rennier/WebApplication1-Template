@@ -1,0 +1,106 @@
+﻿@using WebApplication1.Models
+@model List<WebApplication1.Models.UserRolesViewModel>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>User Roles</h1>
+
+@*----------Table Code for displaying User_Account_Data------------*@
+<table class="table table-striped">
+    @* Code for Table Header*@
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Roles</th>
+            <th>Manage Roles</th>
+            <th>Delete User</th>
+            <th>Reset password</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    @* Code for Table Body*@
+    <tbody>
+        @foreach (var user in Model)
+
+        {
+            <tr>
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
+                <td>@user.Name</td>
+                <td>@user.Email</td>
+                <td>@string.Join(" , ", user.Roles.ToList())</td>
+
+
+                @* Code for Manage_Role button in Table_Body*@
+                <td>
+                    <a class="btn btn-primary" asp-controller="UserRoles" asp-action="Manage" asp-route-userId="@user.UserId">Manage Roles</a>
+                </td>
+
+                @* Code for Delete_User button in Table_Body*@
+                <td>
+                    <form method="post" asp-action="Delete" asp-controller="UserRoles" onsubmit="return confirm('Are you sure you want to delete this user?')">
+                        <input type="hidden" name="userId" value="@user.UserId" />
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+                @* This is aworking alternative to the code below
+            <td>
+            <a class="btn btn-primary" asp-controller="UserRoles" asp-action="Delete" onsubmit="return confirm('Are you sure you want to delete this user?')" asp-route-userId="@user.UserId">Delete User</a>
+            </td>
+            *@
+            
+              
+
+                <td>
+                    <a class="btn btn-primary" asp-controller="ResetPassword" asp-action="ResetPassword1" onsubmit="return confirm('Are you sure you want to delete this user?')" asp-route-userId="@user.UserId">Update password</a>
+                </td>
+
+
+
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+
+<h2>User Accounts</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Locked</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in ViewBag.Users)
+        {
+            <tr>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                <td>@(user.LockoutEnd != null ? "Locked" : "Unlocked")</td>
+                <td>
+                    @if (user.LockoutEnd != null)
+                    {
+                        @Html.ActionLink("Unlock", "UnlockUserAccount", new { userId = user.Id }, new { @class = "btn btn-warning" })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Lock", "LockUserAccount", new { userId = user.Id }, new { @class = "btn btn-danger" })
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+ 

@@ -1,0 +1,58 @@
+﻿
+@model List<Microsoft.AspNetCore.Identity.IdentityRole>
+@{
+    ViewData["Title"] = "Role Manager";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Role Manager</h1>
+
+@*----------Button Code for adding new Role------------*@
+            <form method="post" asp-action="AddRole" asp-controller="RoleManager">
+                <div class="input-group">
+                    <input name="roleName" class="form-control w-25">
+                    <span class="input-group-btn">
+                        <button class="btn btn-info">Add New Role</button>
+                    </span>
+                </div>
+            </form>
+@*----------Button Code for adding new Role---------------*@
+
+
+
+@*----------Table Code for displaying RoleData------------*@
+
+<table class="table table-striped">
+   @* Code for Table Header*@
+    <thead>
+        <tr>
+            <th>RoleId</th>
+            <th>RoleName</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    @* Code for Table Body*@
+    <tbody>
+       
+        @foreach (var objt in Model)
+        {
+            <tr>
+                <td>@objt.Id</td>
+                <td>@objt.Name</td>
+
+                @* Code for Deletebutton in Table_Body*@
+                <td>
+                    <form method="post" asp-action="DeleteRole" asp-controller="RoleManager" onsubmit="return confirm('Are you sure you want to delete this role?')">
+                        <input type="hidden" name="roleName" value="@objt.Name" />
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+

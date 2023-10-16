@@ -1,0 +1,34 @@
+﻿ 
+
+@model WebApplication1.Models.ResetPasswordViewModel
+
+@{
+	ViewData["Title"] = "UPDATE USER";
+}
+
+TempData["TemporaryPassword"] = generatedPassword;
+@if (TempData["TemporaryPassword"] != null)
+{
+	<div class="alert alert-success">Temporary Password: @TempData["TemporaryPassword"]</div>
+}
+
+
+<h1 class="bg-info text-white">Update User</h1>
+<a asp-action="Index" class="btn btn-secondary">Back</a>
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<form asp-action="Update" method="post">
+	<div class="form-group">
+		<label asp-for="UserId"></label>
+		<input asp-for="UserId" class="form-control" disabled />
+	</div>
+	<div class="form-group">
+		<label asp-for="Email"></label>
+		<input asp-for="Email" class="form-control" />
+	</div>
+	<div class="form-group">
+		<label for="password">Password</label>
+		<input name="password" class="form-control" />
+	</div>
+	<button type="submit" class="btn btn-primary">Save</button>
+</form>
